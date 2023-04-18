@@ -1,0 +1,37 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Date', 'AAPL Open', 'AAPL High', 'AAPL Low', 'AAPL Price'],
+        {% for val in data %}
+          [
+            '{{val["07. latest trading day"]}}',
+            parseFloat('{{val["02. open"]}}'),
+            parseFloat('{{val["03. high"]}}'),
+            parseFloat('{{val["04. low"]}}'),
+            parseFloat('{{val["05. price"]}}'),
+          ],
+        {% endfor %}
+      ]);
+
+      var options = {
+        title: 'Stock Prices',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        width: 900,
+        height: 300,
+        series: {
+          0: { color: '#e2431e', pointSize: 5 },
+          1: { color: '#6f9654', pointSize: 5 },
+          2: { color: '#1c91c0', pointSize: 5 },
+          3: { color: '#43459d', pointSize: 5 },
+        },
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('linechart'));
+      chart.draw(data, options);
+    }
+  </script>
+<div id="linechart" style="width: 900px; height: 300px;"></div>
